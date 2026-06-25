@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Prepare Pages artifact
+        run: |
+          set -euo pipefail
+          rm -rf pages-dist
+
+          if [ -f dist/index.html ]; then
+            cp -R dist pages-dist
+          elif [ -f dist/client/index.html ]; then
+            cp -R dist/client pages-dist
+          elif [ -f .output/public/index.html ]; then
+            cp -R .output/public pages-dist
+          else
+            echo "Could not find a static index.html for GitHub Pages."
+            find dist .output -maxdepth 4 -type f -name index.html -print 2>/dev/null || true
+            exit 1
+          fi
+
+          touch pages-dist/.nojekyll
+          cp pages-dist/index.html pages-dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: pages-dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
