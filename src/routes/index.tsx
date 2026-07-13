@@ -16,7 +16,7 @@ import {
 
 const PHONE_DISPLAY = "(909) 276-8869";
 const SMS_HREF = "sms:+19092768869";
-const SITE_URL = "https://kingston-du.github.io/socalbin.github.io/";
+const SITE_URL = "https://kingston-du.github.io/socalbin/";
 const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}hero-trash-can.png`;
 
 const HOW_IT_WORKS: Array<{
