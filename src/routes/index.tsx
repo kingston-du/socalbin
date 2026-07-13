@@ -1,36 +1,106 @@
 import { createFileRoute } from "@tanstack/react-router";
+import {
+  ArrowUpRight,
+  BadgeDollarSign,
+  CircleCheck,
+  Clock3,
+  Droplets,
+  GraduationCap,
+  HeartHandshake,
+  MapPin,
+  MessageCircle,
+  Sparkles,
+  Trash2,
+  type LucideIcon,
+} from "lucide-react";
 
 const PHONE_DISPLAY = "(909) 276-8869";
 const SMS_HREF = "sms:+19092768869";
+const SITE_URL = "https://kingston-du.github.io/socalbin.github.io/";
+const HERO_IMAGE_SRC = `${import.meta.env.BASE_URL}hero-trash-can.png`;
+
+const HOW_IT_WORKS: Array<{
+  number: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}> = [
+  {
+    number: "01",
+    icon: MessageCircle,
+    title: "Send a text",
+    description: "Text your address, number of cans, and anything we should know.",
+  },
+  {
+    number: "02",
+    icon: Clock3,
+    title: "Leave them out",
+    description: "Set your cans somewhere accessible on the day we confirm with you.",
+  },
+  {
+    number: "03",
+    icon: Sparkles,
+    title: "Enjoy the fresh",
+    description: "We powerwash, sanitize, deodorize, and let you get back to your day.",
+  },
+];
+
+const SERVICES: Array<{
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}> = [
+  {
+    icon: Droplets,
+    title: "Powerwash",
+    description: "We rinse away grime, stuck-on residue, and the unpleasant stuff.",
+  },
+  {
+    icon: CircleCheck,
+    title: "Sanitize",
+    description: "We give the inside a proper clean to help tackle odor-causing bacteria.",
+  },
+  {
+    icon: Sparkles,
+    title: "Deodorize",
+    description: "We finish with a fresh scent, so opening the lid is less of an event.",
+  },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Trash Can Cleaning in Rancho Cucamonga | Kingston & Eliseo" },
+      { title: "SoCalBin | Trash Can Cleaning in Rancho Cucamonga" },
       {
         name: "description",
         content:
-          "Local student-run trash can cleaning in Rancho Cucamonga. $12 per can. Powerwashing, sanitizing, and deodorizing. Text us to schedule for Tuesday.",
+          "Student-run trash can cleaning in Rancho Cucamonga. $17 per can, Monday to Friday from 7 AM to 10 PM. Powerwashing, sanitizing, and deodorizing by two lifelong local friends.",
       },
-      { property: "og:title", content: "Trash Can Cleaning in Rancho Cucamonga | Kingston & Eliseo" },
+      {
+        property: "og:title",
+        content: "SoCalBin | Fresh cans. Bigger dreams.",
+      },
       {
         property: "og:description",
         content:
-          "Local student-run trash can cleaning in Rancho Cucamonga. $12 per can. Text us to schedule for Tuesday.",
+          "Two Rancho Cucamonga best friends, working toward college and learning to build a business. $17 per trash can.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: `${SITE_URL}hero-trash-can.png` },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: SITE_URL }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
-          name: "Kingston & Eliseo's Trash Can Cleaning",
+          name: "SoCalBin",
           description:
-            "Local student-run trash can cleaning service in Rancho Cucamonga. Powerwashing, sanitizing, and deodorizing for $12 per can.",
+            "Student-run trash can cleaning service in Rancho Cucamonga. Powerwashing, sanitizing, and deodorizing for $17 per can.",
+          image: `${SITE_URL}hero-trash-can.png`,
           telephone: "+1-909-276-8869",
           areaServed: "Rancho Cucamonga, CA",
           address: {
@@ -43,9 +113,9 @@ export const Route = createFileRoute("/")({
           openingHoursSpecification: [
             {
               "@type": "OpeningHoursSpecification",
-              dayOfWeek: "Tuesday",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
               opens: "07:00",
-              closes: "19:00",
+              closes: "22:00",
             },
           ],
         }),
@@ -55,167 +125,158 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function CanMark({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 64 80"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.25"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M10 16h44l-4 56a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4L10 16z" />
-      <path d="M6 10h52" />
-      <path d="M24 6h16l2 4H22z" />
-      <path d="M22 28v36M32 28v36M42 28v36" />
-    </svg>
-  );
-}
-
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-ink font-sans antialiased pb-28 md:pb-0">
-      {/* Top bar */}
-      <header className="border-b border-rule">
-        <div className="mx-auto max-w-3xl px-5 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <CanMark className="w-5 h-6 text-moss" />
-            <span className="font-serif text-base sm:text-lg leading-tight">
-              Kingston &amp; Eliseo&rsquo;s
-              <span className="hidden sm:inline"> Trash Can Cleaning</span>
+    <div className="min-h-screen bg-background font-sans text-ink antialiased pb-24 md:pb-0">
+      <div className="bg-ink px-5 py-2.5 text-center text-xs font-semibold text-white sm:text-sm">
+        Rancho Cucamonga&apos;s clean-can crew <span className="mx-2 text-sun">&#8226;</span>
+        Monday to Friday, 7 AM to 10 PM
+      </div>
+
+      <header className="border-b border-rule bg-background">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-5 px-5 py-4 sm:px-7">
+          <a href="#top" className="flex items-center gap-3" aria-label="Back to the top">
+            <span className="grid size-10 place-items-center rounded-sm bg-moss text-white">
+              <Trash2 className="size-5" strokeWidth={2.25} aria-hidden="true" />
             </span>
-          </div>
+            <span className="font-serif text-base leading-[1.05] sm:text-lg">
+              SoCalBin
+              <span className="block text-xs text-ink-soft sm:text-base">
+                by Kingston &amp; Eliseo
+              </span>
+            </span>
+          </a>
+
+          <nav
+            className="hidden items-center gap-6 text-sm font-medium text-ink-soft md:flex"
+            aria-label="Primary navigation"
+          >
+            <a className="transition-colors hover:text-moss-deep" href="#how-it-works">
+              How it works
+            </a>
+            <a className="transition-colors hover:text-moss-deep" href="#our-story">
+              Our story
+            </a>
+            <a className="transition-colors hover:text-moss-deep" href="#faq">
+              FAQ
+            </a>
+          </nav>
+
           <a
             href={SMS_HREF}
-            className="text-sm font-medium text-moss-deep underline underline-offset-4 decoration-moss/40 hover:decoration-moss"
+            className="inline-flex items-center justify-center gap-2 rounded-sm bg-coral px-4 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-sun sm:px-5"
           >
-            {PHONE_DISPLAY}
+            <MessageCircle className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Text us</span>
+            <span className="sm:hidden">Text</span>
           </a>
         </div>
       </header>
 
-      <main>
-        {/* Hero */}
-        <section className="border-b border-rule">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-20">
-            <p className="text-xs tracking-[0.18em] uppercase text-moss-deep font-medium mb-5">
-              Rancho Cucamonga, CA · Est. Summer 2026
-            </p>
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-ink">
-              Clean trash cans,
-              <br />
-              <span className="italic text-moss-deep">done the easy way.</span>
-            </h1>
-            <p className="mt-6 text-lg leading-relaxed text-ink-soft max-w-xl">
-              We&rsquo;re Kingston and Eliseo &mdash; two local students cleaning
-              trash cans around Rancho Cucamonga this summer. Text us, leave
-              your cans out, and we&rsquo;ll powerwash, sanitize, and deodorize
-              them on Tuesday.
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-              <a
-                href={SMS_HREF}
-                className="inline-flex items-center justify-center gap-2 bg-moss text-white px-6 py-3.5 text-base font-medium rounded-sm hover:bg-moss-deep transition-colors"
-              >
-                Text us to schedule
-                <span aria-hidden="true">→</span>
-              </a>
-              <span className="text-sm text-ink-soft">
-                or text {PHONE_DISPLAY}
-              </span>
+      <main id="top">
+        <section className="border-b border-rule bg-sky">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 sm:px-7 sm:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(21rem,0.8fr)] lg:items-center lg:gap-14 lg:py-20">
+            <div>
+              <p className="mb-5 inline-flex items-center gap-2 border-b-2 border-coral pb-2 text-xs font-bold uppercase tracking-[0.14em] text-moss-deep">
+                <MapPin className="size-3.5" aria-hidden="true" />
+                Raised in Rancho Cucamonga
+              </p>
+              <h1 className="max-w-3xl font-serif text-5xl leading-[0.98] text-ink sm:text-6xl lg:text-7xl">
+                Fresh cans.
+                <span className="block italic text-moss-deep">Bigger dreams.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft sm:text-xl">
+                We&apos;re Kingston and Eliseo, two best friends of 13 years, making our way to
+                college one clean trash can at a time. We handle the grime so your curb feels a
+                little more cared for.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a
+                  href={SMS_HREF}
+                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-moss px-6 py-3.5 text-base font-bold text-white transition-colors hover:bg-moss-deep"
+                >
+                  Schedule by text
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </a>
+                <a
+                  href={`tel:${PHONE_DISPLAY.replace(/\D/g, "")}`}
+                  className="px-2 text-center text-sm font-semibold text-moss-deep underline decoration-moss/35 underline-offset-4 transition-colors hover:decoration-moss sm:text-left"
+                >
+                  {PHONE_DISPLAY}
+                </a>
+              </div>
+              <div className="mt-9 grid max-w-2xl gap-x-5 gap-y-3 border-t border-ink/15 pt-5 text-sm font-medium text-ink-soft sm:grid-cols-3">
+                <Stat icon={BadgeDollarSign} text="$17 per can" />
+                <Stat icon={Clock3} text="Mon to Fri, 7 AM to 10 PM" />
+                <Stat icon={Sparkles} text="Powerwash, sanitize, deodorize" />
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-soft">
-              <span className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-moss" />
-                $12 per trash can
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-moss" />
-                Tuesdays, 7 AM&ndash;7 PM
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-moss" />
-                Rancho Cucamonga &amp; nearby
-              </span>
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <div className="overflow-hidden rounded-sm border-4 border-background shadow-[10px_10px_0_var(--color-coral)]">
+                <img
+                  src={HERO_IMAGE_SRC}
+                  alt="Freshly cleaned outdoor trash can on a sunny Rancho Cucamonga driveway"
+                  className="aspect-[4/5] h-full w-full object-cover"
+                />
+              </div>
+              <div className="absolute bottom-4 left-4 rounded-sm bg-sun px-4 py-3 text-ink shadow-sm">
+                <p className="font-serif text-3xl leading-none">$17</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-[0.12em]">per trash can</p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* How it works */}
-        <section className="border-b border-rule bg-paper">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="01" title="How it works" />
-            <ol className="mt-8 space-y-5">
-              {[
-                "Text us your address and how many cans you want cleaned.",
-                "Leave your cans out on Tuesday.",
-                "We powerwash, sanitize, and deodorize them.",
-                "You get clean cans without dealing with the smell.",
-              ].map((step, i) => (
-                <li key={step} className="flex gap-4 sm:gap-5">
-                  <span className="font-serif text-2xl text-moss-deep leading-none w-8 shrink-0 pt-0.5">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="text-base sm:text-lg text-ink leading-relaxed">
-                    {step}
-                  </p>
+        <section id="how-it-works" className="border-b border-rule bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-7 sm:py-20">
+            <SectionIntro
+              number="01"
+              eyebrow="Simple from the start"
+              title="You have better things to do than clean a trash can."
+              description="A quick text is all it takes. We will confirm the plan, show up, and leave the can feeling properly fresh."
+            />
+            <ol className="mt-10 grid border-t border-rule md:grid-cols-3">
+              {HOW_IT_WORKS.map(({ number, icon: Icon, title, description }) => (
+                <li
+                  key={number}
+                  className="border-b border-rule py-7 md:border-b-0 md:px-7 md:first:pl-0 md:not(:last-child):border-r md:last:pr-0"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="font-serif text-2xl text-coral">{number}</span>
+                    <Icon className="size-5 text-moss-deep" aria-hidden="true" />
+                  </div>
+                  <h3 className="mt-8 font-serif text-2xl leading-tight text-ink">{title}</h3>
+                  <p className="mt-3 max-w-xs leading-relaxed text-ink-soft">{description}</p>
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        {/* Services */}
-        <section className="border-b border-rule">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="02" title="What we do" />
-            <div className="mt-8 grid sm:grid-cols-3 gap-px bg-rule border border-rule">
-              {[
-                { t: "Powerwashing", d: "We blast away grime, buildup, and old residue." },
-                { t: "Sanitizing", d: "We help kill odor-causing bacteria and leave the can cleaner." },
-                { t: "Deodorizing", d: "We finish with deodorizer so your cans smell noticeably better." },
-              ].map((s) => (
-                <div key={s.t} className="bg-background p-6">
-                  <h3 className="font-serif text-xl text-ink mb-2">{s.t}</h3>
-                  <p className="text-sm text-ink-soft leading-relaxed">{s.d}</p>
-                </div>
-              ))}
+        <section className="border-b border-ink bg-coral text-ink">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-7 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em]">One clear price</p>
+              <h2 className="mt-4 font-serif text-5xl leading-none sm:text-6xl">
+                Fresh is worth
+                <span className="block italic">$17.</span>
+              </h2>
             </div>
-            <p className="mt-5 text-sm text-ink-soft italic">
-              We clean regular outdoor trash, recycling, and green waste cans.
-            </p>
-          </div>
-        </section>
-
-        {/* Pricing */}
-        <section className="border-b border-rule bg-moss-soft/40">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="03" title="Simple pricing" />
-            <div className="mt-8 border border-moss/30 bg-background p-7 sm:p-10">
-              <div className="flex items-baseline gap-3">
-                <span className="font-serif text-6xl sm:text-7xl text-moss-deep leading-none">
-                  $12
-                </span>
-                <span className="text-ink-soft text-base">per trash can</span>
-              </div>
-              <p className="mt-5 text-base text-ink leading-relaxed">
-                No subscription. No confusing packages. Just text us how many
-                cans you have and we&rsquo;ll give you the total before we come by.
+            <div>
+              <p className="max-w-xl text-lg leading-relaxed text-ink/80">
+                There are no subscriptions, surprise add-ons, or confusing packages. Just a clean
+                can for $17, plus two friends who are serious about doing a good job.
               </p>
-              <dl className="mt-6 grid grid-cols-3 border-t border-rule pt-5 text-sm">
+              <dl className="mt-8 grid grid-cols-3 border-t border-ink/25 pt-5">
                 {[
-                  { c: "1 can", p: "$12" },
-                  { c: "2 cans", p: "$24" },
-                  { c: "3 cans", p: "$36" },
-                ].map((r) => (
-                  <div key={r.c} className="flex flex-col">
-                    <dt className="text-ink-soft">{r.c}</dt>
-                    <dd className="font-serif text-xl text-ink mt-1">{r.p}</dd>
+                  { count: "1 can", price: "$17" },
+                  { count: "2 cans", price: "$34" },
+                  { count: "3 cans", price: "$51" },
+                ].map(({ count, price }) => (
+                  <div key={count}>
+                    <dt className="text-sm font-semibold text-ink/70">{count}</dt>
+                    <dd className="mt-1 font-serif text-3xl leading-none">{price}</dd>
                   </div>
                 ))}
               </dl>
@@ -223,166 +284,256 @@ function Index() {
           </div>
         </section>
 
-        {/* About */}
-        <section className="border-b border-rule">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="04" title="Who we are" />
-            <div className="mt-8 grid sm:grid-cols-[auto_1fr] gap-6 sm:gap-8 items-start">
-              <div className="flex sm:flex-col gap-3 sm:gap-2 text-moss-deep">
-                <CanMark className="w-10 h-12" />
-                <CanMark className="w-10 h-12" />
+        <section className="border-b border-rule bg-paper">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-7 sm:py-20">
+            <SectionIntro
+              number="02"
+              eyebrow="The clean-can treatment"
+              title="Three steps. One much nicer bin."
+              description="We clean regular outdoor trash, recycling, and green waste cans."
+            />
+            <div className="mt-10 grid gap-5 md:grid-cols-3 md:gap-0">
+              {SERVICES.map(({ icon: Icon, title, description }) => (
+                <div
+                  key={title}
+                  className="border-l-2 border-moss px-5 py-3 md:px-8 md:first:pl-5 md:last:pr-0"
+                >
+                  <Icon className="size-6 text-coral" aria-hidden="true" />
+                  <h3 className="mt-5 font-serif text-2xl text-ink">{title}</h3>
+                  <p className="mt-2 leading-relaxed text-ink-soft">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="our-story" className="border-b border-rule bg-background">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-7 sm:py-20 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-moss-deep">
+                A little about us
+              </p>
+              <div className="mt-5 border-y-2 border-coral py-6">
+                <p className="font-serif text-7xl leading-none text-moss-deep sm:text-8xl">13</p>
+                <p className="mt-2 max-w-[14rem] font-serif text-2xl leading-tight text-ink">
+                  years of friendship and counting.
+                </p>
               </div>
-              <div className="space-y-4 text-base sm:text-lg text-ink leading-relaxed">
-                <p>
-                  We&rsquo;re Kingston and Eliseo, two recent high school
-                  graduates and soon-to-be college students from the area. We
-                  started this because trash cans get disgusting fast, and most
-                  people do not want to clean them themselves.
-                </p>
-                <p>
-                  We&rsquo;re trying to work hard this summer, help people in
-                  the neighborhood, and build something of our own before
-                  college.
-                </p>
-                <p className="font-serif italic text-moss-deep">
-                  We&rsquo;ll show up, do the job right, and keep it simple.
-                </p>
+              <div className="mt-7 flex items-center gap-3 text-sm leading-relaxed text-ink-soft">
+                <HeartHandshake className="size-5 shrink-0 text-coral" aria-hidden="true" />
+                <p>Best friends since childhood, both raised right here in Rancho Cucamonga.</p>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="max-w-2xl font-serif text-4xl leading-[1.04] text-ink sm:text-5xl">
+                This is our summer job, our college fund, and our first shot at building something
+                together.
+              </h2>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+                We are two recent high school graduates who wanted to earn tuition money while
+                learning what it takes to run a real business. We care about showing up on time,
+                being easy to reach, and leaving every home a little cleaner than we found it.
+              </p>
+              <div className="mt-9 grid border-t border-rule sm:grid-cols-2">
+                <div className="border-b border-rule py-6 sm:border-b-0 sm:border-r sm:pr-7">
+                  <div className="flex items-center gap-2 text-coral">
+                    <GraduationCap className="size-5" aria-hidden="true" />
+                    <span className="text-xs font-bold uppercase tracking-[0.14em]">Kingston</span>
+                  </div>
+                  <p className="mt-4 font-serif text-2xl leading-tight text-ink">
+                    University of Washington
+                  </p>
+                  <p className="mt-2 text-ink-soft">Pre-Sciences</p>
+                </div>
+                <div className="border-b border-rule py-6 sm:border-b-0 sm:pl-7">
+                  <div className="flex items-center gap-2 text-coral">
+                    <GraduationCap className="size-5" aria-hidden="true" />
+                    <span className="text-xs font-bold uppercase tracking-[0.14em]">Eliseo</span>
+                  </div>
+                  <p className="mt-4 font-serif text-2xl leading-tight text-ink">Cal Poly Pomona</p>
+                  <p className="mt-2 text-ink-soft">Business</p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Service area */}
-        <section className="border-b border-rule bg-paper">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="05" title="Where we clean" />
-            <p className="mt-7 text-base sm:text-lg text-ink leading-relaxed">
-              We&rsquo;re based in Rancho Cucamonga and can clean cans in nearby
-              areas too. If you&rsquo;re a little farther away, text us anyway
-              &mdash; we may be able to fit you into the route.
-            </p>
-            <ul className="mt-6 flex flex-wrap gap-2 text-sm">
-              {[
-                "Rancho Cucamonga",
-                "Alta Loma",
-                "Etiwanda",
-                "Upland",
-                "Fontana",
-                "Ontario",
-                "& nearby",
-              ].map((c) => (
-                <li
-                  key={c}
-                  className="border border-rule bg-background px-3 py-1.5 text-ink-soft"
-                >
-                  {c}
-                </li>
-              ))}
-            </ul>
+        <section className="border-b border-rule bg-sky">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-7 sm:py-16 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-moss-deep">
+                Around town
+              </p>
+              <h2 className="mt-4 font-serif text-4xl leading-[1.04] text-ink sm:text-5xl">
+                Local through and through.
+              </h2>
+            </div>
+            <div>
+              <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
+                We are based in Rancho Cucamonga and can usually make nearby neighborhoods work too.
+                A little outside the map? Text us anyway and we will see what we can do.
+              </p>
+              <ul className="mt-7 flex flex-wrap gap-2.5 text-sm font-semibold text-ink">
+                {["Rancho Cucamonga", "Alta Loma", "Etiwanda", "Upland", "Fontana", "Ontario"].map(
+                  (city) => (
+                    <li
+                      key={city}
+                      className="rounded-sm border border-rule bg-background px-3 py-2"
+                    >
+                      {city}
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section className="border-b border-rule">
-          <div className="mx-auto max-w-3xl px-5 py-14 sm:py-16">
-            <SectionHead eyebrow="06" title="Frequently asked" />
-            <dl className="mt-8 divide-y divide-rule border-t border-b border-rule">
+        <section id="faq" className="border-b border-rule bg-background">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-7 sm:py-20">
+            <SectionIntro
+              number="03"
+              eyebrow="Helpful details"
+              title="Questions, answered."
+              description="We like keeping things simple. Here is the quick version."
+            />
+            <dl className="mt-10 divide-y divide-rule border-y border-rule">
               {[
-                { q: "When do you clean cans?", a: "Tuesdays from 7:00 AM to 7:00 PM." },
-                { q: "How much does it cost?", a: "$12 per trash can." },
                 {
-                  q: "Do I need to be home?",
-                  a: "No. Just leave the cans somewhere accessible and text us any instructions.",
+                  question: "When are you available?",
+                  answer: "Monday to Friday from 7 AM to 10 PM, by appointment.",
                 },
                 {
-                  q: "How do I pay?",
-                  a: "We can coordinate payment by text. We try to keep it simple and flexible.",
+                  question: "How much does it cost?",
+                  answer: "It is $17 for each trash can we clean.",
                 },
                 {
-                  q: "Do you clean really dirty cans?",
-                  a: "Yes, that\u2019s the point. If it\u2019s unusually bad, just send us a quick picture first.",
+                  question: "Do I need to be home?",
+                  answer:
+                    "No. Leave the cans somewhere accessible and text us any helpful instructions.",
                 },
-              ].map((f) => (
-                <div key={f.q} className="py-5 grid sm:grid-cols-[1fr_2fr] gap-2 sm:gap-8">
-                  <dt className="font-serif text-lg text-ink">{f.q}</dt>
-                  <dd className="text-ink-soft leading-relaxed">{f.a}</dd>
+                {
+                  question: "How do I pay?",
+                  answer: "We will coordinate payment by text and keep it easy.",
+                },
+                {
+                  question: "What if my can is really dirty?",
+                  answer:
+                    "That is exactly why we are here. If it is unusually rough, send us a quick picture first.",
+                },
+              ].map(({ question, answer }) => (
+                <div
+                  key={question}
+                  className="grid gap-3 py-6 sm:grid-cols-[minmax(13rem,0.8fr)_minmax(0,1.2fr)] sm:gap-10"
+                >
+                  <dt className="font-serif text-xl text-ink">{question}</dt>
+                  <dd className="leading-relaxed text-ink-soft">{answer}</dd>
                 </div>
               ))}
             </dl>
           </div>
         </section>
 
-        {/* Final CTA */}
         <section className="bg-moss text-white">
-          <div className="mx-auto max-w-3xl px-5 py-16 sm:py-20">
-            <h2 className="font-serif text-3xl sm:text-4xl leading-tight">
-              Want your trash cans cleaned next Tuesday?
-            </h2>
-            <p className="mt-5 text-base sm:text-lg text-white/85 leading-relaxed max-w-xl">
-              Text Kingston and Eliseo with your address, number of cans, and
-              any instructions. We&rsquo;ll reply and confirm the plan.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+          <div className="mx-auto grid max-w-6xl gap-8 px-5 py-16 sm:px-7 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-sun">
+                Ready when you are
+              </p>
+              <h2 className="mt-4 max-w-3xl font-serif text-4xl leading-[1.04] sm:text-5xl">
+                Give your cans a clean start.
+              </h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+                Text us your address and number of cans. We will reply, confirm the details, and
+                take it from there.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
               <a
                 href={SMS_HREF}
-                className="inline-flex items-center justify-center gap-2 bg-white text-moss-deep px-6 py-3.5 text-base font-medium rounded-sm hover:bg-paper transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-sm bg-sun px-6 py-3.5 text-base font-bold text-ink transition-colors hover:bg-coral"
               >
-                Text us now
-                <span aria-hidden="true">→</span>
+                Text Kingston &amp; Eliseo
+                <ArrowUpRight className="size-4" aria-hidden="true" />
               </a>
-              <span className="text-sm text-white/80">{PHONE_DISPLAY}</span>
+              <a
+                href={`tel:${PHONE_DISPLAY.replace(/\D/g, "")}`}
+                className="inline-flex items-center justify-center rounded-sm border border-white/35 px-6 py-3.5 text-base font-bold text-white transition-colors hover:bg-white/10"
+              >
+                {PHONE_DISPLAY}
+              </a>
             </div>
           </div>
         </section>
       </main>
 
       <footer className="border-t border-rule bg-background">
-        <div className="mx-auto max-w-3xl px-5 py-10 text-sm text-ink-soft">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-2.5 mb-3">
-                <CanMark className="w-5 h-6 text-moss" />
-                <span className="font-serif text-base text-ink">
-                  Kingston &amp; Eliseo&rsquo;s Trash Can Cleaning
-                </span>
-              </div>
-              <p>Rancho Cucamonga, CA</p>
-              <p>$12 per trash can · Tuesdays 7 AM&ndash;7 PM</p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 px-5 py-9 text-sm text-ink-soft sm:flex-row sm:items-end sm:justify-between sm:px-7">
+          <div>
+            <div className="flex items-center gap-2 text-ink">
+              <Trash2 className="size-4 text-moss" aria-hidden="true" />
+              <span className="font-serif text-base">SoCalBin</span>
             </div>
-            <div className="sm:text-right">
-              <a
-                href={SMS_HREF}
-                className="text-moss-deep underline underline-offset-4 decoration-moss/40 hover:decoration-moss"
-              >
-                {PHONE_DISPLAY}
-              </a>
-              <p className="mt-2 text-xs">
-                &copy; {new Date().getFullYear()} Kingston &amp; Eliseo. A small
-                local business.
-              </p>
-            </div>
+            <p className="mt-2">Rancho Cucamonga, CA</p>
+            <p>Kingston &amp; Eliseo&apos;s trash can cleaning service.</p>
+            <p>$17 per trash can. Monday to Friday, 7 AM to 10 PM.</p>
+          </div>
+          <div className="sm:text-right">
+            <a
+              className="font-semibold text-moss-deep underline decoration-moss/35 underline-offset-4 hover:decoration-moss"
+              href={SMS_HREF}
+            >
+              {PHONE_DISPLAY}
+            </a>
+            <p className="mt-2 text-xs">
+              &copy; {new Date().getFullYear()} Kingston &amp; Eliseo. Built with hometown pride.
+            </p>
           </div>
         </div>
       </footer>
 
-      {/* Sticky mobile CTA */}
       <a
         href={SMS_HREF}
-        className="md:hidden fixed left-3 right-3 bottom-3 bg-moss text-white text-center py-3.5 px-4 text-base font-medium rounded-sm shadow-lg z-50"
+        className="fixed bottom-3 left-3 right-3 z-50 inline-flex items-center justify-center gap-2 rounded-sm bg-coral px-4 py-3.5 text-base font-bold text-ink shadow-lg md:hidden"
       >
-        Text us · {PHONE_DISPLAY}
+        <MessageCircle className="size-4" aria-hidden="true" />
+        Text us to schedule
       </a>
     </div>
   );
 }
 
-function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
+function Stat({ icon: Icon, text }: { icon: LucideIcon; text: string }) {
   return (
-    <div className="flex items-baseline gap-4 border-b border-rule pb-3">
-      <span className="font-serif text-sm text-moss-deep tracking-wider">
-        {eyebrow}
-      </span>
-      <h2 className="font-serif text-2xl sm:text-3xl text-ink">{title}</h2>
+    <div className="flex items-start gap-2 leading-snug">
+      <Icon className="mt-0.5 size-4 shrink-0 text-coral" aria-hidden="true" />
+      <span>{text}</span>
+    </div>
+  );
+}
+
+function SectionIntro({
+  number,
+  eyebrow,
+  title,
+  description,
+}: {
+  number: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-[3rem_minmax(0,1fr)] sm:gap-6">
+      <span className="font-serif text-2xl text-coral">{number}</span>
+      <div>
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-moss-deep">{eyebrow}</p>
+        <h2 className="mt-3 max-w-3xl font-serif text-4xl leading-[1.04] text-ink sm:text-5xl">
+          {title}
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">{description}</p>
+      </div>
     </div>
   );
 }
